@@ -28,24 +28,24 @@ INCLUDE Irvine32.inc
 
 mGetString MACRO prompt, output
 
-    PUSH    EDX
-    PUSH    ECX
-    PUSH    EAX
+    PUSH	EDX
+    PUSH	ECX
+    PUSH	EAX
 
 
     mDisplayString prompt
 
-    MOV     EDX, output
-    MOV     ECX, 80                 
+    MOV	EDX, output
+    MOV	ECX, 80                 
 
-    CALL    ReadString
+    CALL	ReadString
 
-    MOV     charCount, EAX          ; number of characters entered / number of bytes read 
+    MOV		charCount, EAX				; number of characters entered / number of bytes read 
     ; move to readVal and pass on stack
 
-    POP     EAX
-    POP     ECX
-    POP     EDX
+    POP	EAX
+	POP	ECX
+	POP	EDX
 
 ENDM
 
@@ -62,12 +62,12 @@ ENDM
 
 mDisplayString MACRO string
 
-    PUSH    EDX
+	PUSH	EDX
   
-    MOV     EDX, string
-    CALL    WriteString
+	MOV	EDX, string
+	CALL	WriteString
 
-    POP     EDX
+	POP	EDX
 
 ENDM
 
@@ -99,7 +99,7 @@ currSumMessage	BYTE "	The current sum is: ",0
 lineNumFormat	BYTE ". ",0
 
 ; formatting strings
-commaSpace		BYTE ", ",0		    ; **EC: 1
+commaSpace		BYTE ", ",0				; **EC: 1
 
 ; boolean values
 negativeFlag	DWORD 0
@@ -112,8 +112,8 @@ inputInteger	SDWORD ?
 userNumArray	SDWORD 10 DUP(?)
 sumOfInputs		SDWORD ?
 averageOfInputs	SDWORD ?
-currentSum		SDWORD ?		    ; **EC: 1
-lineCount		SDWORD 0		    ; **EC: 1
+currentSum		SDWORD ?				; **EC: 1
+lineCount		SDWORD 0				; **EC: 1
 
 
 .code
@@ -136,33 +136,33 @@ main PROC
 	CALL	Crlf
 
 ; initializing address of array and loop counter
-	MOV		EDI, OFFSET userNumArray
-	MOV		ECX, NUMBER_OF_INPUTS
+	MOV	EDI, OFFSET userNumArray
+	MOV	ECX, NUMBER_OF_INPUTS
 
 ; loop for prompting user for input and storing to array
 _arrayFillLoop:
 
-	INC		lineCount				; **EC: 1
+	INC	lineCount						; **EC: 1
 
-	PUSH	OFFSET lineNumFormat	; [EBP + 44] **EC: 1
-	PUSH	OFFSET outputString		; [EBP + 40] **EC: 1
-	PUSH	OFFSET lineCount		; [EBP + 36] **EC: 1
-	PUSH	OFFSET inputPrompt2		; [EBP + 32]
-	PUSH	OFFSET inputInteger		; [EBP + 28]
-	PUSH	OFFSET charCount		; [EBP + 24]
-	PUSH	OFFSET errorMessage		; [EBP + 20]
-	PUSH	OFFSET negativeFlag		; [EBP + 16]
-	PUSH	OFFSET inputString		; [EBP + 12]
-	PUSH	OFFSET inputPrompt		; [EBP + 8]
+	PUSH	OFFSET lineNumFormat		; [EBP + 44] **EC: 1
+	PUSH	OFFSET outputString			; [EBP + 40] **EC: 1
+	PUSH	OFFSET lineCount			; [EBP + 36] **EC: 1
+	PUSH	OFFSET inputPrompt2			; [EBP + 32]
+	PUSH	OFFSET inputInteger			; [EBP + 28]
+	PUSH	OFFSET charCount			; [EBP + 24]
+	PUSH	OFFSET errorMessage			; [EBP + 20]
+	PUSH	OFFSET negativeFlag			; [EBP + 16]
+	PUSH	OFFSET inputString			; [EBP + 12]
+	PUSH	OFFSET inputPrompt			; [EBP + 8]
 	CALL	ReadVal
 
-	MOV		EAX, inputInteger
-	MOV		[EDI], EAX
-	ADD		EDI, TYPE userNumArray
+	MOV	EAX, inputInteger
+	MOV	[EDI], EAX
+	ADD	EDI, TYPE userNumArray
 
 ; **EC1 running subtotal
-	ADD		currentSum, EAX
-	mDisplayString  OFFSET currSumMessage
+	ADD	currentSum, EAX
+	mDisplayString	OFFSET currSumMessage
 
 	PUSH	OFFSET outputString
 	PUSH	currentSum
@@ -177,23 +177,23 @@ _arrayFillLoop:
 	CALL	Crlf
 
 ; initializing address of array and loop counter
-	MOV		ESI, OFFSET userNumArray    ;Address of first element of myArr into ESI
-	MOV		ECX, NUMBER_OF_INPUTS
+	MOV	ESI, OFFSET userNumArray		;Address of first element of myArr into ESI
+	MOV	ECX, NUMBER_OF_INPUTS
 
 ; loop using WriteVal to convert each integer in array to string and display them
 _displayIntegers:
-	MOV		EAX, [ESI] 
+	MOV	EAX, [ESI] 
 	PUSH	OFFSET outputString
 	PUSH	EAX
 	CALL	WriteVal
 
-	CMP		ECX, 1
-	JE		_noComma
+	CMP	ECX, 1
+	JE	_noComma
 
-	mDisplayString OFFSET commaSpace
+	mDisplayString	OFFSET commaSpace
 
 _noComma:
-	ADD		ESI, TYPE userNumArray
+	ADD	ESI, TYPE userNumArray
 
 	LOOP	_displayIntegers
 	CALL	Crlf
@@ -202,9 +202,9 @@ _noComma:
 
 ; calculate and store sum
 	PUSH	NUMBER_OF_INPUTS
-	push	OFFSET sumOfInputs
-	push	OFFSET userNumArray
-	call	CalculateSum
+	PUSH	OFFSET sumOfInputs
+	PUSH	OFFSET userNumArray
+	PUSH	CalculateSum
 
 ; sum display identifier
 	mDisplayString  OFFSET sumMessage
@@ -216,9 +216,9 @@ _noComma:
 
 ; calculate and store average
 	PUSH	NUMBER_OF_INPUTS
-	push	OFFSET averageOfInputs
-	push	sumOfInputs
-	call	CalculateAverage
+	PUSH	OFFSET averageOfInputs
+	PUSH	sumOfInputs
+	CALL	CalculateAverage
 	CALL	Crlf
 
 ; average display identifier
@@ -235,7 +235,7 @@ _noComma:
 	mDisplayString  OFFSET goodbyeMessage
 
 
-	Invoke ExitProcess,0	        ; exit to operating system
+	Invoke ExitProcess,0				; exit to operating system
 main ENDP
 
 
@@ -256,7 +256,7 @@ main ENDP
 ReadVal PROC
 
 	PUSH	EBP 
-	MOV		EBP, ESP
+	MOV	EBP, ESP
 
 	PUSH	EAX
 	PUSH	EBX
@@ -267,38 +267,38 @@ ReadVal PROC
 _getInput:
 
 ; **EC: 1
-	MOV		EAX, [EBP + 36]
+	MOV	EAX, [EBP + 36]
 	PUSH	[EBP + 40]
 	PUSH	[EAX]
 	CALL	WriteVal
 	mDisplayString	[EBP + 44]
 
-	mGetString  [EBP + 8], [EBP + 12]
-	JMP		_setValues
+	mGetString	[EBP + 8], [EBP + 12]
+	JMP	_setValues
 
 _pleaseTryAgain:
 	
 ; **EC: 1
-	MOV		EAX, [EBP + 36]
-	MOV		EBX, 1
-	ADD		[EAX], EBX
+	MOV	EAX, [EBP + 36]
+	MOV	EBX, 1
+	ADD	[EAX], EBX
 	PUSH	[EBP + 40]
 	PUSH	[EAX]
 	CALL	WriteVal
 
 	mDisplayString	[EBP + 44]
 
-	mGetString  [EBP + 32], [EBP + 12]
+	mGetString	[EBP + 32], [EBP + 12]
 
 _setValues:
 
 	PUSH	EAX
-	MOV		EAX, [EBP + 24]
-	MOV		ECX, [EAX]				; set counter to length of input
-	MOV		EDI, [EBP + 28]			; location of variable to store converted value
-	MOV		EBX, 0					; clear variable for storing current integer
-	MOV		[EDI], EBX
-	POP		EAX
+	MOV	EAX, [EBP + 24]
+	MOV	ECX, [EAX]						; set counter to length of input
+	MOV	EDI, [EBP + 28]					; location of variable to store converted value
+	MOV	EBX, 0							; clear variable for storing current integer
+	MOV	[EDI], EBX
+	POP	EAX
 
 _clearNegative:
 
@@ -310,74 +310,74 @@ _clearNegative:
 	POP		EAX
 	POP		EBX
 
-	MOV		ESI, [EBP + 12]			; place value of user input into ESI so LODSB can use it
+	MOV		ESI, [EBP + 12]				; place value of user input into ESI so LODSB can use it
 
 ; convert the ASCII value obtained from mGetString to numeric value using string primitives
 
-	LODSB							; uses ESI
-	CMP		AL, 45					; checks if first character is "-"
-	JE		_setNegative
-	CMP		AL, 43					; checks if first character is "+"
-	JE		_positive
-	JMP		_validate				; jumps to validation code if no sign characters
+	LODSB								; uses ESI
+	CMP	AL, 45							; checks if first character is "-"
+	JE	_setNegative
+	CMP	AL, 43							; checks if first character is "+"
+	JE	_positive
+	JMP	_validate						; jumps to validation code if no sign characters
 
 _setNegative:
 
 	PUSH	EBX
 	PUSH	EAX
-	MOV		EBX, 1
-	MOV		EAX, [EBP + 16]
-	MOV		[EAX], EBX
-	POP		EAX
-	POP		EBX
-	DEC		ECX
-	JMP		_increment
+	MOV	EBX, 1
+	MOV	EAX, [EBP + 16]
+	MOV	[EAX], EBX
+	POP	EAX
+	POP	EBX
+	DEC	ECX
+	JMP	_increment
 
 _positive:
 
 	PUSH	EBX
 	PUSH	EAX
-	MOV		EBX, 0
-	MOV		EAX, [EBP + 16]
-	MOV		[EAX], EBX
-	POP		EAX
-	POP		EBX
-	DEC		ECX
-	JMP		_increment
+	MOV	EBX, 0
+	MOV	EAX, [EBP + 16]
+	MOV	[EAX], EBX
+	POP	EAX
+	POP	EBX
+	DEC	ECX
+	JMP	_increment
 
 
 ; code block that increments through the current input and validates it
 _increment:
 
-	MOV		EAX, 0
+	MOV	EAX, 0
 	CLD
-	LODSB		; increment to next character
+	LODSB								; increment to next character
 
 _validate:
 
-	CMP		AL, 48  ; checks if character is "0"
-	JB		_invalidInput
-	CMP		AL, 57  ; checks if character is "9"
-	JA		_invalidInput
+	CMP	AL, 48  						; checks if character is "0"
+	JB	_invalidInput
+	CMP	AL, 57  						; checks if character is "9"
+	JA	_invalidInput
 
-	MOV		EBX, [EBP + 16]
-	MOV		EBX, [EBX]
-	CMP		EBX, 1
-	JE		_negativeAccumulator
-	JMP		_accumulator
+	MOV	EBX, [EBP + 16]
+	MOV	EBX, [EBX]
+	CMP	EBX, 1
+	JE	_negativeAccumulator
+	JMP	_accumulator
 
 ; if overflow occurs during multiplication this cleans up the stack
 _mulStackCleanup:
 
-	POP		EDX
-	POP		EBX
-	POP		EAX
+	POP	EDX
+	POP	EBX
+	POP	EAX
 
 _invalidInput:
 
-	mDisplayString [EBP + 20]  ; error message
+	mDisplayString	[EBP + 20]  		; error message
 	CALL	Crlf
-	JMP		_pleaseTryAgain
+	JMP	_pleaseTryAgain
 
 ; converting string into integer
 _accumulator:
@@ -386,30 +386,30 @@ _accumulator:
 	PUSH	EBX
 	PUSH	EDX
 
-	MOV		EAX, [EDI]
-	MOV		EBX, 10
+	MOV	EAX, [EDI]
+	MOV	EBX, 10
 	IMUL	EAX, EBX
-	JO		_mulStackCleanup
+	JO	_mulStackCleanup
 
-	MOV		[EDI], EAX
+	MOV	[EDI], EAX
 
-	POP		EDX
-	POP		EBX
-	POP		EAX
+	POP	EDX
+	POP	EBX
+	POP	EAX
 
-	SUB		AL, 48         ; to convert to integer value
-	MOV		EBX, [EDI]
+	SUB	AL, 48							; to convert to integer value
+	MOV	EBX, [EDI]
 
-	ADD		EBX, EAX
-	JO		_invalidInput
-	ADD		[EDI], AL      ; store value in a memory variable
+	ADD	EBX, EAX
+	JO	_invalidInput
+	ADD	[EDI], AL						; store value in a memory variable
 
 
 
-	DEC		ECX
-	CMP		ECX, 0
-	JA		_increment
-	JE		_endReadVal
+	DEC	ECX
+	CMP	ECX, 0
+	JA	_increment
+	JE	_endReadVal
 
 
 _negativeAccumulator:
@@ -418,51 +418,51 @@ _negativeAccumulator:
 	PUSH	EBX
 	PUSH	EDX
 
-	MOV		EAX, [EDI]
-	MOV		EBX, 10
+	MOV	EAX, [EDI]
+	MOV	EBX, 10
 	IMUL	EAX, EBX
-	JO		_mulStackCleanup
+	JO	_mulStackCleanup
 
-	MOV		[EDI], EAX
+	MOV	[EDI], EAX
 
-	POP		EDX
-	POP		EBX
-	POP		EAX
+	POP	EDX
+	POP	EBX
+	POP	EAX
 
-	SUB		AL, 48			; to convert to integer value
+	SUB	AL, 48							; to convert to integer value
 
-	MOVSX	EDX, AL			; sign extend and negate
-	NEG		EDX
+	MOVSX	EDX, AL						; sign extend and negate
+	NEG	EDX
 	
-	MOV		EBX, [EDI]
-	ADD		EBX, EDX
-	JO		_invalidInput
+	MOV	EBX, [EDI]
+	ADD	EBX, EDX
+	JO	_invalidInput
 
-	ADD		[EDI], EDX      ; store value in a memory variable
+	ADD	[EDI], EDX						; store value in a memory variable
 	
-	MOV		EBX, [EDI]
-	CMP		EBX, 0
-	JLE		_continue
+	MOV	EBX, [EDI]
+	CMP	EBX, 0
+	JLE	_continue
 
-	NEG		EBX
-	MOV		[EDI], EBX
+	NEG	EBX
+	MOV	[EDI], EBX
 
 _continue:
 
-	DEC		ECX
-	CMP		ECX, 0
-	JA		_increment
+	DEC	ECX
+	CMP	ECX, 0
+	JA	_increment
 
 
 _endReadVal:
 
-	POP		ESI
-	POP		EDI
-	POP		ECX
-	POP		EBX
-	POP		EAX
-	POP		EBP
-	RET		28
+	POP	ESI
+	POP	EDI
+	POP	ECX
+	POP	EBX
+	POP	EAX
+	POP	EBP
+	RET	28
 
 ReadVal ENDP
 
@@ -481,7 +481,7 @@ WriteVal PROC
 
 ; invokes mDisplayString macro
 	PUSH	EBP
-	MOV		EBP, ESP
+	MOV	EBP, ESP
 
 	PUSH	EAX
 	PUSH	EBX
@@ -489,28 +489,28 @@ WriteVal PROC
 	PUSH	EDI
 	PUSH	EDX
 
-	MOV		EDI, [EBP + 12]			; address of output variable
-	MOV		EAX, [EBP + 8]			; SDWORD input
+	MOV	EDI, [EBP + 12]					; address of output variable
+	MOV	EAX, [EBP + 8]					; SDWORD input
 
 _checkSign:
 
-	CMP		EAX, 0
-	JL		_negate
-	JMP		_pushNullBit
+	CMP	EAX, 0
+	JL	_negate
+	JMP	_pushNullBit
 	CLD
 
 
 _negate:
 
 	PUSH	EAX
-	MOV		AL, 45
+	MOV	AL, 45
 	STOSB	
 	mDisplayString	[EBP + 12]
 
-	DEC		EDI					; Move back to beginning of string (address)
+	DEC	EDI								; Move back to beginning of string (address)
 		
-	POP		EAX
-	NEG		EAX					; convert to positive int
+	POP	EAX
+	NEG	EAX								; convert to positive int
 
 _pushNullBit:
 
@@ -518,24 +518,24 @@ _pushNullBit:
 
 _toASCII:
 
-	MOV		EDX, 0
-	MOV		EBX, 10
-	DIV		EBX
+	MOV	EDX, 0
+	MOV	EBX, 10
+	DIV	EBX
 		
-	MOV		ECX, EDX
-	ADD		ECX, 48
+	MOV	ECX, EDX
+	ADD	ECX, 48
 	PUSH	ECX
-	CMP		EAX, 0
-	JE		_display
-	JMP		_toASCII
+	CMP	EAX, 0
+	JE	_display
+	JMP	_toASCII
 
 _display:
 
-	POP		EAX
+	POP	EAX
 
 	STOSB
 	mDisplayString	[EBP + 12]
-	DEC		EDI				; Move back to display again
+	DEC	EDI								; Move back to display again
 
 	CMP		EAX, 0
 	JE		_endWriteVal
@@ -543,15 +543,15 @@ _display:
 
 _endWriteVal:
 
-	DEC		EDI				; Move back to reset for next use 
+	DEC	EDI								; Move back to reset for next use 
 	
-	POP		EDX
-	POP		EDI
-	POP		ECX
-	POP		EBX
-	POP		EAX
-	POP		EBP
-	RET		8
+	POP	EDX
+	POP	EDI
+	POP	ECX
+	POP	EBX
+	POP	EAX
+	POP	EBP
+	RET	8
 
 WriteVal ENDP
 
@@ -569,33 +569,33 @@ WriteVal ENDP
 CalculateSum PROC
 
 	PUSH	EBP
-	MOV		EBP, ESP
+	MOV	EBP, ESP
 
 	PUSH	ESI
 	PUSH	EAX
 	PUSH	EBX
 	PUSH	ECX
 
-	MOV		ESI, [EBP + 8]			; input array
-	MOV		ECX, [EBP + 16]			; number of elements
+	MOV	ESI, [EBP + 8]					; input array
+	MOV	ECX, [EBP + 16]					; number of elements
 
-	MOV		EAX, 0
+	MOV	EAX, 0
 
 _sumLoop:
 
-	ADD		EAX, [ESI]
-	ADD		ESI, 4
+	ADD	EAX, [ESI]
+	ADD	ESI, 4
 	LOOP	_sumLoop
 
-	MOV		EBX, [EBP + 12]
-	MOV		[EBX], EAX
+	MOV	EBX, [EBP + 12]
+	MOV	[EBX], EAX
 
-	POP		ECX
-	POP		EBX
-	POP		EAX
-	POP		ESI
-	POP		EBP
-	RET		8
+	POP	ECX
+	POP	EBX
+	POP	EAX
+	POP	ESI
+	POP	EBP
+	RET	8
 
 CalculateSum ENDP
 
@@ -613,29 +613,29 @@ CalculateSum ENDP
 CalculateAverage PROC
 
 	PUSH	EBP
-	MOV		EBP, ESP
+	MOV	EBP, ESP
 	PUSH	ECX
 	PUSH	EAX
 	PUSH	EBX
 
-	MOV		ECX, [EBP + 16]			; number of elements
-	MOV		EAX, [EBP + 8]			; sum			
+	MOV	ECX, [EBP + 16]					; number of elements
+	MOV	EAX, [EBP + 8]					; sum			
 	
 _divide:
 
-	MOV		EBX, [EBP + 16]			; number of elements
-	MOV		EDX, 0
+	MOV	EBX, [EBP + 16]					; number of elements
+	MOV	EDX, 0
 	CDQ
 	IDIV	EBX
 
-	MOV		EBX, [EBP + 12]					
-	MOV		[EBX], EAX
+	MOV	EBX, [EBP + 12]					
+	MOV	[EBX], EAX
 
-	POP		EBX
-	POP		EAX
-	POP		ECX
-	POP		EBP
-	RET		12
+	POP	EBX
+	POP	EAX
+	POP	ECX
+	POP	EBP
+	RET	12
 
 CalculateAverage ENDP
 
