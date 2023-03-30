@@ -28,22 +28,21 @@ INCLUDE Irvine32.inc
 
 mGetString MACRO prompt, output
 
-    PUSH	EDX
-    PUSH	ECX
-    PUSH	EAX
+	PUSH	EDX
+	PUSH	ECX
+	PUSH	EAX
 
 
-    mDisplayString prompt
+	mDisplayString prompt
 
-    MOV	EDX, output
-    MOV	ECX, 80                 
+	MOV	EDX, output
+	MOV	ECX, 80                 
 
-    CALL	ReadString
+	CALL	ReadString
 
-    MOV		charCount, EAX				; number of characters entered / number of bytes read 
-    ; move to readVal and pass on stack
-
-    POP	EAX
+	MOV	charCount, EAX					; number of characters entered / number of bytes read 
+										; move to readVal and pass on stack
+	POP	EAX
 	POP	ECX
 	POP	EDX
 
@@ -323,15 +322,15 @@ _clearNegative:
 
 _setNegative:
 
-	PUSH	EBX
-	PUSH	EAX
-	MOV	EBX, 1
-	MOV	EAX, [EBP + 16]
-	MOV	[EAX], EBX
-	POP	EAX
-	POP	EBX
-	DEC	ECX
-	JMP	_increment
+	PUSH    EBX
+	PUSH    EAX
+	MOV     EBX, 1
+	MOV     EAX, [EBP + 16]
+	MOV     [EAX], EBX
+	POP     EAX
+	POP     EBX
+	DEC     ECX
+	JMP     _increment
 
 _positive:
 
