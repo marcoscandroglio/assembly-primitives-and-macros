@@ -120,115 +120,115 @@ main PROC
 
 ; display introduction and instructions
 	mDisplayString	OFFSET introPrompt1
-	CALL	Crlf
-	CALL	Crlf
+	CALL    Crlf
+	CALL    Crlf
 
 	mDisplayString	OFFSET introPrompt2
-	CALL	Crlf
+	CALL    Crlf
 	mDisplayString	OFFSET introPrompt3
-	CALL	Crlf
-	CALL	Crlf
+	CALL    Crlf
+	CALL    Crlf
 
 ; display extra credit prompt
 	mDisplayString	OFFSET extraCredit1
-	CALL	Crlf
-	CALL	Crlf
+	CALL    Crlf
+	CALL    Crlf
 
 ; initializing address of array and loop counter
-	MOV	EDI, OFFSET userNumArray
-	MOV	ECX, NUMBER_OF_INPUTS
+	MOV     EDI, OFFSET userNumArray
+	MOV     ECX, NUMBER_OF_INPUTS
 
 ; loop for prompting user for input and storing to array
 _arrayFillLoop:
 
-	INC	lineCount						; **EC: 1
+	INC     lineCount					; **EC: 1
 
-	PUSH	OFFSET lineNumFormat		; [EBP + 44] **EC: 1
-	PUSH	OFFSET outputString			; [EBP + 40] **EC: 1
-	PUSH	OFFSET lineCount			; [EBP + 36] **EC: 1
-	PUSH	OFFSET inputPrompt2			; [EBP + 32]
-	PUSH	OFFSET inputInteger			; [EBP + 28]
-	PUSH	OFFSET charCount			; [EBP + 24]
-	PUSH	OFFSET errorMessage			; [EBP + 20]
-	PUSH	OFFSET negativeFlag			; [EBP + 16]
-	PUSH	OFFSET inputString			; [EBP + 12]
-	PUSH	OFFSET inputPrompt			; [EBP + 8]
-	CALL	ReadVal
+	PUSH    OFFSET lineNumFormat		; [EBP + 44] **EC: 1
+	PUSH    OFFSET outputString			; [EBP + 40] **EC: 1
+	PUSH    OFFSET lineCount			; [EBP + 36] **EC: 1
+	PUSH    OFFSET inputPrompt2			; [EBP + 32]
+	PUSH    OFFSET inputInteger			; [EBP + 28]
+	PUSH    OFFSET charCount			; [EBP + 24]
+	PUSH    OFFSET errorMessage			; [EBP + 20]
+	PUSH    OFFSET negativeFlag			; [EBP + 16]
+	PUSH    OFFSET inputString			; [EBP + 12]
+	PUSH    OFFSET inputPrompt			; [EBP + 8]
+	CALL    ReadVal
 
-	MOV	EAX, inputInteger
-	MOV	[EDI], EAX
-	ADD	EDI, TYPE userNumArray
+	MOV     EAX, inputInteger
+	MOV     [EDI], EAX
+	ADD     EDI, TYPE userNumArray
 
 ; **EC1 running subtotal
-	ADD	currentSum, EAX
+	ADD     currentSum, EAX
 	mDisplayString	OFFSET currSumMessage
 
-	PUSH	OFFSET outputString
-	PUSH	currentSum
-	CALL	WriteVal
-	CALL	Crlf
+	PUSH    OFFSET outputString
+	PUSH    currentSum
+	CALL    WriteVal
+	CALL    Crlf
 
 	LOOP    _arrayFillLoop
-	CALL	Crlf
+	CALL    Crlf
 
 ; number display identifier
 	mDisplayString  OFFSET numbersMessage
-	CALL	Crlf
+	CALL    Crlf
 
 ; initializing address of array and loop counter
-	MOV	ESI, OFFSET userNumArray		;Address of first element of myArr into ESI
-	MOV	ECX, NUMBER_OF_INPUTS
+	MOV     ESI, OFFSET userNumArray		;Address of first element of myArr into ESI
+	MOV     ECX, NUMBER_OF_INPUTS
 
 ; loop using WriteVal to convert each integer in array to string and display them
 _displayIntegers:
-	MOV	EAX, [ESI] 
-	PUSH	OFFSET outputString
-	PUSH	EAX
-	CALL	WriteVal
+	MOV     EAX, [ESI] 
+	PUSH    OFFSET outputString
+	PUSH    EAX
+	CALL    WriteVal
 
-	CMP	ECX, 1
-	JE	_noComma
+	CMP     ECX, 1
+	JE     _noComma
 
 	mDisplayString	OFFSET commaSpace
 
 _noComma:
-	ADD	ESI, TYPE userNumArray
+	ADD     ESI, TYPE userNumArray
 
-	LOOP	_displayIntegers
-	CALL	Crlf
-	CALL	Crlf
+	LOOP    _displayIntegers
+	CALL    Crlf
+	CALL    Crlf
 
 
 ; calculate and store sum
-	PUSH	NUMBER_OF_INPUTS
-	PUSH	OFFSET sumOfInputs
-	PUSH	OFFSET userNumArray
-	PUSH	CalculateSum
+	PUSH    NUMBER_OF_INPUTS
+	PUSH    OFFSET sumOfInputs
+	PUSH    OFFSET userNumArray
+	PUSH    CalculateSum
 
 ; sum display identifier
 	mDisplayString  OFFSET sumMessage
 
 ; display sum
-	PUSH	OFFSET outputString
-	PUSH	sumOfInputs
-	CALL	WriteVal
+	PUSH    OFFSET outputString
+	PUSH    sumOfInputs
+	CALL    WriteVal
 
 ; calculate and store average
-	PUSH	NUMBER_OF_INPUTS
-	PUSH	OFFSET averageOfInputs
-	PUSH	sumOfInputs
-	CALL	CalculateAverage
-	CALL	Crlf
+	PUSH    NUMBER_OF_INPUTS
+	PUSH    OFFSET averageOfInputs
+	PUSH    sumOfInputs
+	CALL    CalculateAverage
+	CALL    Crlf
 
 ; average display identifier
 	mDisplayString  OFFSET averageMessage
 
 ; display average
-	PUSH	OFFSET outputString
-	PUSH	averageOfInputs
-	CALL	WriteVal
-	CALL	Crlf
-	CALL	Crlf
+	PUSH    OFFSET outputString
+	PUSH    averageOfInputs
+	CALL    WriteVal
+	CALL    Crlf
+	CALL    Crlf
 
 ; display goodbye message
 	mDisplayString  OFFSET goodbyeMessage
@@ -254,36 +254,36 @@ main ENDP
 
 ReadVal PROC
 
-	PUSH	EBP 
-	MOV	EBP, ESP
+	PUSH    EBP 
+	MOV     EBP, ESP
 
-	PUSH	EAX
-	PUSH	EBX
-	PUSH	ECX
-	PUSH	EDI
-	PUSH	ESI
+	PUSH    EAX
+	PUSH    EBX
+	PUSH    ECX
+	PUSH    EDI
+	PUSH    ESI
 
 _getInput:
 
 ; **EC: 1
-	MOV	EAX, [EBP + 36]
-	PUSH	[EBP + 40]
-	PUSH	[EAX]
-	CALL	WriteVal
+	MOV     EAX, [EBP + 36]
+	PUSH    [EBP + 40]
+	PUSH    [EAX]
+	CALL    WriteVal
 	mDisplayString	[EBP + 44]
 
 	mGetString	[EBP + 8], [EBP + 12]
-	JMP	_setValues
+	JMP     _setValues
 
 _pleaseTryAgain:
 	
 ; **EC: 1
-	MOV	EAX, [EBP + 36]
-	MOV	EBX, 1
-	ADD	[EAX], EBX
-	PUSH	[EBP + 40]
-	PUSH	[EAX]
-	CALL	WriteVal
+	MOV     EAX, [EBP + 36]
+	MOV     EBX, 1
+	ADD     [EAX], EBX
+	PUSH    [EBP + 40]
+	PUSH    [EAX]
+	CALL    WriteVal
 
 	mDisplayString	[EBP + 44]
 
@@ -291,34 +291,34 @@ _pleaseTryAgain:
 
 _setValues:
 
-	PUSH	EAX
-	MOV	EAX, [EBP + 24]
-	MOV	ECX, [EAX]						; set counter to length of input
-	MOV	EDI, [EBP + 28]					; location of variable to store converted value
-	MOV	EBX, 0							; clear variable for storing current integer
-	MOV	[EDI], EBX
-	POP	EAX
+	PUSH    EAX
+	MOV     EAX, [EBP + 24]
+	MOV     ECX, [EAX]						; set counter to length of input
+	MOV     EDI, [EBP + 28]					; location of variable to store converted value
+	MOV     EBX, 0							; clear variable for storing current integer
+	MOV     [EDI], EBX
+	POP     EAX
 
 _clearNegative:
 
-	PUSH	EBX
-	PUSH	EAX
-	MOV		EBX, 0
-	MOV		EAX, [EBP + 16]
-	MOV		[EAX], EBX
-	POP		EAX
-	POP		EBX
+	PUSH    EBX
+	PUSH    EAX
+	MOV     EBX, 0
+	MOV     EAX, [EBP + 16]
+	MOV     [EAX], EBX
+	POP     EAX
+	POP     EBX
 
-	MOV		ESI, [EBP + 12]				; place value of user input into ESI so LODSB can use it
+	MOV     ESI, [EBP + 12]				; place value of user input into ESI so LODSB can use it
 
 ; convert the ASCII value obtained from mGetString to numeric value using string primitives
 
 	LODSB								; uses ESI
-	CMP	AL, 45							; checks if first character is "-"
-	JE	_setNegative
-	CMP	AL, 43							; checks if first character is "+"
-	JE	_positive
-	JMP	_validate						; jumps to validation code if no sign characters
+	CMP     AL, 45							; checks if first character is "-"
+	JE      _setNegative
+	CMP     AL, 43							; checks if first character is "+"
+	JE      _positive
+	JMP     _validate						; jumps to validation code if no sign characters
 
 _setNegative:
 
