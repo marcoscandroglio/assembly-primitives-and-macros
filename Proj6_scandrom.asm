@@ -79,8 +79,8 @@ NUMBER_OF_INPUTS = 10
 introPrompt1       BYTE "PROGRAMMING ASSIGNMENT 6: Designing low-level I/O procedures Written by: Marco Scandroglio",0
 introPrompt2       BYTE "Please provide 10 signed decimal integers.",0
 introPrompt3       BYTE "Each number needs to be small enough to fit inside a 32 bit register.",13,10
-			       BYTE "After you have finished inputting the raw numbers I will display a",13,10  
-			       BYTE "list of the integers, their sum, and their average value.",0
+                   BYTE "After you have finished inputting the raw numbers I will display a",13,10  
+                   BYTE "list of the integers, their sum, and their average value.",0
 
 extraCredit1       BYTE "**EC1: Number each line of user input and display a running subtotal of the user's valid numbers.",0
   
