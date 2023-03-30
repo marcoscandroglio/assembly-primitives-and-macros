@@ -551,7 +551,7 @@ _endWriteVal:
 	POP		EBX
 	POP		EAX
 	POP		EBP
-	RET	8
+	RET		8
 
 WriteVal ENDP
 
@@ -595,7 +595,7 @@ _sumLoop:
 	POP		EAX
 	POP		ESI
 	POP		EBP
-	RET	8
+	RET		8
 
 CalculateSum ENDP
 
@@ -635,7 +635,7 @@ _divide:
 	POP		EAX
 	POP		ECX
 	POP		EBP
-	RET	12
+	RET		12
 
 CalculateAverage ENDP
 
