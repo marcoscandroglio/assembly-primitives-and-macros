@@ -1,8 +1,15 @@
 # assembly-primitives-and-macros
 
-This program is the portfolio project for Computer Architecture and Assembly Language (CS 271) at Oregon State University.
+*This program is the portfolio project for Computer Architecture and Assembly Language (CS 271) at Oregon State University.*
 
 ## Implementation Description
+
+This is a program that prompts the user for integer input.
+Each input string is converted character by character
+to determine if they are valid integers and stored in an array.
+The sum and average of the values in the array are calculated.
+The array of inputs as well as the sum and average are converted
+back into strings and displayed with the use of macros.
 
 ### Macros
 
